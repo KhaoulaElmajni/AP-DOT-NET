@@ -2,22 +2,17 @@ namespace   FIRSTAPP.Service
 {
     class AccountServiceImpl : AccountService
     {
-        private List<Account> accounts = new List<Account>();
-        public Account AddNewAccount(Account account1)
-        {
-            this.accounts.Add(account1);
-            return account1;
-        }
+        private Dictionary<int,Account> accounts = new Dictionary<int, Account>() ;
 
         public void DeleteAccount(int id)
         {
             Account account = GetAccount(id);
-            accounts.Remove(account);
+            accounts.Remove(account.id);
         }
 
         public List<Account> GetAllAccounts()
         {
-            return accounts;
+            return accounts.Values.ToList();
         }
 
         public Account GetAccount(int id)
@@ -37,12 +32,22 @@ namespace   FIRSTAPP.Service
 
         public List<Account> GetDebitedAccounts()
         {
-            return this.accounts.Where(account => account.balance < 0).ToList();
+            return this.accounts.Values.Where(account => account.balance < 0).ToList();
         }
 
         public double balanceAVG()
         {
-            throw new NotImplementedException();
+            return this.accounts.Values.Average(account => account.balance);
+        }
+
+        public Account GetAccountById(int id)
+        {
+            return accounts.Values.ToList().Find(account => account.id == id);
+        }
+
+        public void AddNewAccount(Account account1)
+        {
+            accounts.Add(account1.id,account1);
         }
     }
 }
