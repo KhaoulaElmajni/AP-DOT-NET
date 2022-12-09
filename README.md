@@ -1,7 +1,26 @@
+# <strong style="color:blue; opacity: 0.80">AP DOT NET CORE</strong>:mortar_board::computer: 
+# <span style="color:green "> 1.Présentation de l'activité pratique</span>
+ * <strong style="color:dark">Partie 1 :100: 
+Partie 1 :  Créer une application DotNet Core de type console qui permet gérer des comptes (id, curency, balance)
+   - Créer la classe Account
+   - Créer l'interface AccountService avec les opérations :
+         . AddNewAccount
+         . GetAllAccounts
+         . GetAccountById
+         . GetDebitedAccounts
+         . GetBalanceAVG()
+   - Créer une implémentation de cette interface utilisant une collection de type Dictionary
+   - Tester l'application
 
+ * <strong style="color:dark">Partie 2 :
+ Créer une application DotNet Core de type WebAPI qui permet gérer des produits appartenant à des catégories
 
+# <span style="color:green "> 2.Partie de réalisation </span>
+1. 	installation du .Net version 6.0
+	
 ![](https://i.imgur.com/B59VUWa.png)
 
+2. consultation de version
 
 ![](https://i.imgur.com/FMh8JSr.png)
 
@@ -9,7 +28,8 @@
 
 
 
-Partie 1 :  Créer une application DotNet Core de type console qui permet gérer des comptes (id, curency, balance)
+3. Partie 1 :  
+	Créer une application DotNet Core de type console qui permet gérer des comptes (id, curency, balance)
 
 
 ![](https://i.imgur.com/XjvSldp.png)
@@ -69,8 +89,6 @@ namespace FIRSTAPP.Service
 
         List<Account> GetDebitedAccounts();
         double balanceAVG();
-
-     
     }
 }
 ```
@@ -168,13 +186,16 @@ Console.WriteLine(accountService.GetAccountById(1).ToString());
 accountService.DeleteAccount(1);
 ```
 
+> Résultat de l'exécution
+	
 ![](https://i.imgur.com/nIMX5Hs.png)
 
 
-Partie 2 :
+4. Partie 2 :
  Créer une application DotNet Core de type WebAPI qui permet gérer des produits appartenant à des catégories
 
-![](https://i.imgur.com/1lxaTO4.png)
+![](https://i.imgur.com/Eu0b2jl.png)
 
-![](https://i.imgur.com/qkXYuke.png)
-
+* <strong style="color:dark"> Diagramme de classe
+	
+![](https://i.imgur.com/iVn4Zva.png)
