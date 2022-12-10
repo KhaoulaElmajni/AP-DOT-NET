@@ -199,3 +199,33 @@ accountService.DeleteAccount(1);
 * <strong style="color:dark"> Diagramme de classe
 	
 ![](https://i.imgur.com/iVn4Zva.png)
+ 
+EntityFrameworkCore
+	
+![](https://i.imgur.com/HdQKRLX.png)
+
+![](https://i.imgur.com/xhdhrEV.png)
+
+![](https://i.imgur.com/bWxX0Pl.png)
+
+Add Connection String =>
+"ProductsDB": "Server=localhost;Database=products-db;Uid=root;Pwd="
+	
+![](https://i.imgur.com/6BZNyT9.png)
+
+
+
+
+
+
+Packages to install =>
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.0
+dotnet add package Pomelo.EntityFrameworkCore.MySql --version 6.0.0
+
+Install & Update dotnet EF tool =>
+dotnet tool install --global dotnet-ef --version 6.0.0
+dotnet tool update --global dotnet-ef 
+
+Scaffold MySQL Database =>
+dotnet ef dbcontext scaffold Name=ProductsDB Pomelo.EntityFrameworkCore.MySql --output-dir Models --context-dir Data --namespace MyProductWebApi.Models --context-namespace MyProductWebApi.Data --context ProductsContext -f --no-onconfiguring
+
