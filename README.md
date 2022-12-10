@@ -229,3 +229,34 @@ dotnet tool update --global dotnet-ef
 Scaffold MySQL Database =>
 dotnet ef dbcontext scaffold Name=ProductsDB Pomelo.EntityFrameworkCore.MySql --output-dir Models --context-dir Data --namespace MyProductWebApi.Models --context-namespace MyProductWebApi.Data --context ProductsContext -f --no-onconfiguring
 
+
+Documentation Swagger
+	
+![](https://i.imgur.com/BXLGfCV.png)
+	
+Category
+	
+GET
+	
+![](https://i.imgur.com/Ezl3xGe.png)
+
+POST
+
+PUT
+	
+
+DELETE
+	
+
+Product
+	
+GET
+	
+
+POST
+
+PUT
+	
+
+DELETE
+	
