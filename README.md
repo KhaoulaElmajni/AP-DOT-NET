@@ -208,55 +208,355 @@ EntityFrameworkCore
 
 ![](https://i.imgur.com/bWxX0Pl.png)
 
+# <span style="color:green "> 4.Les technologies utilisées</span>	
+
 Add Connection String =>
 "ProductsDB": "Server=localhost;Database=products-db;Uid=root;Pwd="
 	
 ![](https://i.imgur.com/6BZNyT9.png)
 
+# **Models**
+**Product**
+
+```csharp!
+namespace MyProductWebApi.Models
+{
+    public partial class Product
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; } = null!;
+        public int? CategoryId { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public int? UnitsInStock { get; set; }
+
+        public virtual Category? Category { get; set; }
+    }
+}
+```
+	
+**Category**
+	
+```csharp!
+namespace MyProductWebApi.Models
+{
+    public partial class Category
+    {
+        public Category()
+        {
+            Products = new HashSet<Product>();
+        }
+
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = null!;
+        public string? Description { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
+    }
+}
+```
+	
+# **Controllers**
+	
+**ProductsController**
+	
+```csharp!
+namespace MyProductWebApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
+    {
+        private readonly ProductsContext _context;
+
+        public ProductsController(ProductsContext context
+            )
+        {
+            _context = context;
+        }
+
+        // GET: api/Products
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            Category category = new Category();
+
+            return await _context.Products.ToListAsync();
+        }
+
+        // GET: api/Products/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
+        }
+
+        // PUT: api/Products/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(int id, Product product)
+        {
+            if (id != product.ProductId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Products
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("")]
+        public async Task<ActionResult<Product>> PostProduct(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+        }
+
+        // DELETE: api/Products/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ProductExists(int id)
+        {
+            return _context.Products.Any(e => e.ProductId == id);
+        }
+
+        //loading related data
+        [HttpGet("GetProductsFromCategoryId")]
+        public async Task<Product?> GetProductsFromCategoryId(int? categoryId)
+        {
+            return await _context.Products
+                .Include(p => p.ProductId)
+                .Where(p => p.CategoryId == categoryId)
+                .FirstOrDefaultAsync();
+        }
 
 
+    
+    }
+}
+```
+	
+**CategoriesController**
+	
+```csharp!
+namespace MyProductsWebApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController: ControllerBase
+    {
+        private readonly ProductsContext _context;
 
+        public CategoryController(ProductsContext context
+            )
+        {
+            _context = context;
+        }
 
+        // GET: api/Categories
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        {
+           // Category category = new Category();
 
-Packages to install =>
-dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.0
-dotnet add package Pomelo.EntityFrameworkCore.MySql --version 6.0.0
+            return await _context.Categories.ToListAsync();
+        }
+
+        // GET: api/Categories/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Category>> GetCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return category;
+        }
+
+        // PUT: api/Categories/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory(int id, Category category)
+        {
+            if (id != category.CategoryId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(category).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CategoryExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Categories
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("")]
+        public async Task<ActionResult<Category>> PostCategory(Category category)
+        {
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
+        }
+
+        // DELETE: api/Categories/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool CategoryExists(int id)
+        {
+            return _context.Categories.Any(e => e.CategoryId == id);
+        }
+
+    }
+}
+```
+	
+****
+	
+# **Structure du projet**
+
+![](https://i.imgur.com/AkTpkNo.png)
+
+	
+
+Packages installés =>
+> dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.0
+	
+> dotnet add package Pomelo.EntityFrameworkCore.MySql --version 6.0.0
 
 Install & Update dotnet EF tool =>
-dotnet tool install --global dotnet-ef --version 6.0.0
-dotnet tool update --global dotnet-ef 
+> dotnet tool install --global dotnet-ef --version 6.0.0
+
+> dotnet tool update --global dotnet-ef 
 
 Scaffold MySQL Database =>
-dotnet ef dbcontext scaffold Name=ProductsDB Pomelo.EntityFrameworkCore.MySql --output-dir Models --context-dir Data --namespace MyProductWebApi.Models --context-namespace MyProductWebApi.Data --context ProductsContext -f --no-onconfiguring
+> dotnet ef dbcontext scaffold Name=ProductsDB Pomelo.EntityFrameworkCore.MySql --output-dir Models --context-dir Data --namespace MyProductWebApi.Models --context-namespace MyProductWebApi.Data --context ProductsContext -f --no-onconfiguring
 
 
 Documentation Swagger
 	
 ![](https://i.imgur.com/BXLGfCV.png)
 	
-Category
+# **Category**
 	
-GET
+* GET
 	
 ![](https://i.imgur.com/Ezl3xGe.png)
 
-POST
+![](https://i.imgur.com/ew1viUd.png)
 
-PUT
 	
+* POST
 
-DELETE
-	
+![](https://i.imgur.com/cUeVWYR.png)
+![](https://i.imgur.com/0uytixL.png)
 
-Product
 	
-GET
+* PUT
 	
+![](https://i.imgur.com/wRLL0Te.png)
+![](https://i.imgur.com/iFjkTlQ.png)
 
-POST
 
-PUT
+* DELETE
 	
+![](https://i.imgur.com/sK3omlT.png)
 
-DELETE
+____
 	
+# **Product**
+
+* GET
+	
+![](https://i.imgur.com/Esg4cAt.png)
+	
+![](https://i.imgur.com/ZRyodM4.png)
+
+	
+* POST
+
+![](https://i.imgur.com/faihTSj.png)
+![](https://i.imgur.com/hT9gjtj.png)
+
+	
+* PUT
+	
+![](https://i.imgur.com/5ycixQr.png)
+![](https://i.imgur.com/wXEQuCv.png)
+
+
+* DELETE
+
+![](https://i.imgur.com/iLMte9N.png)
