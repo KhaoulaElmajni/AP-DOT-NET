@@ -560,3 +560,26 @@ ____
 * DELETE
 
 ![](https://i.imgur.com/iLMte9N.png)
+
+	
+# <span style="color:green">3.Les Technologies utilisées</span>
+####  <span style="color:#0036ad"> 1.Java</span>
+ * <strong style="color:dark">* <strong style="color:dark">Entity Framework (EF) Core est une version légère, extensible, open source et multiplateforme de la célèbre technologie d'accès aux données Entity Framework.
+
+EF Core peut servir de mappeur objet-relationnel (O/RM), qui :
+
+* Permet aux développeurs .NET de travailler avec une base de données à l'aide d'objets .NET.
+* Élimine le besoin de la plupart du code d'accès aux données qui doit généralement être écrit.
+
+*voir également à propos* [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/):link: 
+
+
+	    
+* <strong style="color: dark ; opacity: 0.80">Enfin nous tenons à remercier le seul et unique, notre professeur Mr YOUSFI Mohamed *Docteur & professeur à l'ENSET MEDIA* pour son soutien et son encouragement envers nous, aussi pour nous avoir donné cette opportunité d'améliorer nos compétences et de connaître les nouvelles technologies comme celles qui nous avons travaillé.
+
+*voir également à propos* Mr [YOUSSFI Mohamed](https://www.linkedin.com/in/mohamed-youssfi-3ab0811b/)
+</strong>
+	
+> Created by :[name=ELMAJNI KHAOULA]
+[time=Mon,2022,12,01][color=#EF0101]
+>*voir également à propos de moi* [ELMAJNI Khaoula](https://www.linkedin.com/in/khaoula-elmajni/)
